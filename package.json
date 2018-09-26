@@ -1,0 +1,23 @@
+{
+  "name": "markbox",
+  "version": "0.0.1",
+  "main": "lib/markbox.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "example": "npm run build && parcel example/index.html --no-cache"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "parcel-bundler": "^1.10.0",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "codesandbox": "^1.2.16",
+    "marked": "^0.5.1"
+  }
+}
