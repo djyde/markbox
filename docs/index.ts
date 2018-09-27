@@ -49,13 +49,17 @@ const run = async () => {
     // Render the highlighted code with `hljs` class.
     return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`;
   };
-  const html = await markbox.parse(content, {
-    markedOptions: {
-      renderer
-    }
-  })
+  try {
+    const html = await markbox.parse(content, {
+      markedOptions: {
+        renderer
+      }
+    })
+    previewDiv.innerHTML = html
+  } catch (e) {
+    previewDiv.textContent = e.message
+  }
 
-  previewDiv.innerHTML = html
 }
 
 runBtn.addEventListener('click', run)
