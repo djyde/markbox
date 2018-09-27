@@ -11,9 +11,21 @@ export async function parse(text, options: Options = {}) {
 
   const { embedOptions = {} } = options
 
-  const format = tokens.map(async item => {
+  const format = tokens.map(async (item, index) => {
     if (item.type === "code") {
-      const {parameters, embedOptions: customEmbedOptions = {} } = transformers[item.lang](item.text)
+      const transformer = transformers[item.lang]
+
+      if (!transformer) {
+        return item
+      }
+
+      const prevToken = tokens[index - 1]
+
+      if (prevToken && prevToken.type === 'html' && prevToken.text.match('<!-- ignore -->')) {
+        return item
+      }
+
+      const {parameters, embedOptions: customEmbedOptions = {} } = transformer(item.text)
 
       const res = await axios.post(
         `https://codesandbox.io/api/v1/sandboxes/define?json=1`,
