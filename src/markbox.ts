@@ -11,13 +11,9 @@ export async function parse(text, options: Options = {}) {
 
   const { embedOptions = {} } = options
 
-  const embedOptionsString = Object.keys(embedOptions).map(name => {
-    return `${name}=${embedOptions[name]}`
-  }).join('&')
-
   const format = tokens.map(async item => {
     if (item.type === "code") {
-      const parameters = transformers[item.lang](item.text)
+      const {parameters, embedOptions: customEmbedOptions = {} } = transformers[item.lang](item.text)
 
       const res = await axios.post(
         `https://codesandbox.io/api/v1/sandboxes/define?json=1`,
@@ -27,6 +23,11 @@ export async function parse(text, options: Options = {}) {
       );
 
       const sandboxId = res.data.sandbox_id;
+
+      const finalEmbedOptions = Object.assign({}, embedOptions, customEmbedOptions)
+      const embedOptionsString = Object.keys(finalEmbedOptions).map(name => {
+        return `${name}=${finalEmbedOptions[name]}`
+      }).join('&')
 
       return {
         type: "html",

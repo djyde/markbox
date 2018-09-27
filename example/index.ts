@@ -2,7 +2,9 @@ import 'babel-polyfill'
 
 import * as markbox from '../lib/markbox'
 
-const react = `
+const template = {} as any
+
+template.react = `
 ## React
 
 \`\`\`js
@@ -22,13 +24,38 @@ render(<Counter />, document.querySelector('#root'))
 
 `
 
-const demo = async (template) => {
-  const html = await markbox.parse(react, {
+template.vue = `
+## Vue
+
+\`\`\`vue
+<template>
+  <div>
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      message: ''
+    }
+  }
+}
+</script>
+\`\`\`
+
+`
+
+const demo = async (templateName) => {
+  const html = await markbox.parse(template[templateName], {
     embedOptions: {
       
     }
   });
-  document.querySelector(`#${template}`).innerHTML = html;
+  document.querySelector(`#${templateName}`).innerHTML = html;
 }
 
 demo('react')
+demo('vue')

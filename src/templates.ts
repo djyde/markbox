@@ -19,3 +19,15 @@ export const indexHtml = `
 </body>
 </html>
 `
+
+export const vueIndexJs = `import Vue from 'vue'
+import App from './App.vue'
+
+new Vue({
+	el: '#root',
+	components: {
+		app: App
+	},
+	template: '<app />'
+})
+`
