@@ -6,6 +6,7 @@
     "lib"
   ],
   "scripts": {
+    "start": "tsc --watch",
     "test": "npm run build && jest",
     "build": "tsc",
     "prepublish": "npm run build",

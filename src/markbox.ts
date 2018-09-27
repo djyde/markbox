@@ -1,6 +1,6 @@
 import * as marked from "marked";
-import { getParameters } from "codesandbox/lib/api/define";
 import axios from "axios";
+import transformers from "./transformers";
 
 type Options = {
   embedOptions?: { [key: string]: any }
@@ -17,18 +17,7 @@ export async function parse(text, options: Options = {}) {
 
   const format = tokens.map(async item => {
     if (item.type === "code") {
-      const parameters = getParameters({
-        files: {
-          "index.js": {
-            content: item.text,
-            isBinary: false
-          },
-          "package.json": {
-            isBinary: false,
-            content: JSON.stringify({ dependencies: {} })
-          }
-        }
-      });
+      const parameters = transformers[item.lang](item.text)
 
       const res = await axios.post(
         `https://codesandbox.io/api/v1/sandboxes/define?json=1`,

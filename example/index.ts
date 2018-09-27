@@ -2,21 +2,33 @@ import 'babel-polyfill'
 
 import * as markbox from '../lib/markbox'
 
-const content = `
-
-Code from markdown:
+const react = `
+## React
 
 \`\`\`js
-document.write('Code from markdown!')
+import * as React from 'react'
+import { render } from 'react-dom'
+
+class Counter extends React.PureComponent {
+  render () {
+    return (
+      <div>Hello world!</div>
+    )
+  }
+}
+
+render(<Counter />, document.querySelector('#root'))
 \`\`\`
 
 `
 
-;(async () => {
-  const html = await markbox.parse(content, {
+const demo = async (template) => {
+  const html = await markbox.parse(react, {
     embedOptions: {
       
     }
   });
-  document.querySelector("#app").innerHTML = html;
-})();
+  document.querySelector(`#${template}`).innerHTML = html;
+}
+
+demo('react')
