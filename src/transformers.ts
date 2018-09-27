@@ -5,7 +5,7 @@ const react = (code) => {
   const parameters = getParameters({
     files: {
       "index.js": {
-        content: code,
+        content: templates.reactWrapper(code),
         isBinary: false
       },
       'index.html': {

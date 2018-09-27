@@ -8,9 +8,6 @@ template.react = `
 ## React
 
 \`\`\`js
-import * as React from 'react'
-import { render } from 'react-dom'
-
 class Counter extends React.PureComponent {
   render () {
     return (
@@ -19,7 +16,7 @@ class Counter extends React.PureComponent {
   }
 }
 
-render(<Counter />, document.querySelector('#root'))
+mount(<Counter />)
 \`\`\`
 
 `

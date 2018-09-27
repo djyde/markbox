@@ -31,3 +31,13 @@ new Vue({
 	template: '<app />'
 })
 `
+
+export const reactWrapper = code => `import * as React from 'react'
+import { render } from 'react-dom'
+
+function mount(Component) {
+	render(Component, document.querySelector('#root'))
+}
+
+${code}
+`

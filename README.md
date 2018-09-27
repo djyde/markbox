@@ -1,7 +1,7 @@
 # Markbox
 
-[![CircleCI](https://circleci.com/gh/djyde/markbox/tree/master.svg?style=shield)](https://circleci.com/gh/djyde/markbox/tree/master)
 [![NPM](https://badgen.net/npm/v/markbox)](https://npm.im/markbox)
+[![CircleCI](https://circleci.com/gh/djyde/markbox/tree/master.svg?style=shield)](https://circleci.com/gh/djyde/markbox/tree/master)
 
 Parse your code in markdown into CodeSandbox.
 
@@ -32,6 +32,23 @@ document.write('Code from markdown!')
 })();
 
 ```
+
+### templates
+
+Depends on your code `languange`, Markbox will transform your codes to different template.
+
+#### js, jsx
+
+When the code language is `js` or `jsx`, Markbox will use a React template. So, rather than writing full React render code, you can simply use `mount()` to mount your React component:
+
+![React example](https://ws1.sinaimg.cn/large/006tNc79gy1fvodd52ndqj315c0oi40r.jpg)
+
+
+#### vue
+
+Your single file Vue component will automatically render to the container.
+
+![Vue example](https://ws4.sinaimg.cn/large/006tNc79gy1fvodedrt8pj315c1100vz.jpg)
 
 ## API
 
