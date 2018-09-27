@@ -1,7 +1,6 @@
 # Markbox
 
 [![CircleCI](https://circleci.com/gh/djyde/markbox/tree/master.svg?style=shield)](https://circleci.com/gh/djyde/markbox/tree/master)
-
 [![NPM](https://badgen.net/npm/v/markbox)](https://npm.im/markbox)
 
 Parse your code in markdown into CodeSandbox.
