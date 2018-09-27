@@ -9,6 +9,7 @@
     "start": "tsc --watch",
     "test": "npm run build && jest",
     "build": "tsc",
+    "doc": "parcel docs/index.html --no-cache",
     "prepublish": "npm run build",
     "example": "npm run build && parcel example/index.html --no-cache"
   },

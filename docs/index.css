@@ -1,0 +1,45 @@
+@import './normalize.css';
+
+#toolbar {
+  height: 42px;
+  background-color: hsl(0, 0%, 93%);
+}
+
+#app {
+  position: absolute;
+  top: 42px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#editor {
+  padding: 4px;
+  float: left;
+  position: relative;
+  width: 30%;
+  height: 100%;
+  border-right: 1px solid rgba(218, 218, 218, 0.5);
+  overflow: scroll;
+}
+
+#preview {
+  float: right;
+  width: 69%;
+  overflow: scroll;
+  height: 100%;
+  padding-bottom: 2rem;
+}
+
+.CodeMirror {
+  height: 100%;
+}
+
+iframe {
+  border: 0;
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  padding: 2rem;
+  height: 512px;
+}

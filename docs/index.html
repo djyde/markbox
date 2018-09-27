@@ -1,0 +1,127 @@
+<html>
+
+<head>
+  <title>Markbox</title>
+  <meta charset="UTF-8" />
+
+  <script src="//cdn.bootcss.com/codemirror/5.38.0/codemirror.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/languages/javascript.min.js"></script>
+  <script src="//cdn.bootcss.com/codemirror/5.38.0/mode/markdown/markdown.min.js"></script>
+
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <link href="//cdn.bootcss.com/bulma/0.7.1/css/bulma.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/codemirror/5.38.0/codemirror.min.css" rel="stylesheet">
+  <link href="https://cdn.bootcss.com/codemirror/5.38.0/theme/elegant.css" rel="stylesheet">
+  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="index.css" />
+
+</head>
+
+<script id="defaultContent" type="text/plain"># Markbox
+
+Parse your code in markdown into CodeSandbox.
+
+[![NPM](https://badgen.net/npm/v/markbox)](https://npm.im/markbox)
+[![CircleCI](https://circleci.com/gh/djyde/markbox/tree/master.svg?style=shield)](https://circleci.com/gh/djyde/markbox/tree/master)
+
+> This preview is not real time parsed. After modifying the content, you need to click the `Run` button to preview.
+
+## Usage
+
+```
+$ npm i markbox
+```
+
+Markbox will parse your markdown using [marked](https://github.com/markedjs/marked) and replace all of codes in markdown with Codesandbox embed iframe.
+
+<!-- ignore -->
+
+```js
+const markbox = require('markbox')
+
+const markdownContent = `Your markdown content...`
+
+const html = await markbox.parse(markdownContent)
+```
+
+## Rules
+
+Depends on your code `languange`, Markbox will transform your codes to different template.
+
+### JavaScript (React)
+
+When the code language is `js` or `jsx`, Markbox will use a React template.
+
+Rather than writing full React render code, you can simply just write your React component and use `mount()` to mount it:
+
+```js
+class Counter extends React.PureComponent {
+  render () {
+    return (
+      <div>Hello world!</div>
+    )
+  }
+}
+
+mount(<Counter />)
+```
+
+#### Vue
+
+When the code language is `vue`, your single file Vue component will automatically render to the container.
+
+```vue
+<template>
+  <div>
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+</template>
+
+%3Cscript%3E
+export default {
+  data() {
+    return {
+      message: ''
+    }
+  }
+}
+%3C/script%3E
+```
+
+### others
+
+Other unsupported language code will directly output as a normal code block.
+
+### ignore
+
+Sometimes you just want to show the code instead of put it into CodeSandbox. You can add a `<!-- ignore -->` above the code:
+
+<!-- ignore -->
+
+```js
+console.log('hello world')
+```
+
+# License
+
+MIT License
+</script>
+
+<body>
+  <div id="toolbar">
+    <a class="button" id="run-btn">Run</button>
+  </div>
+  <div id="app">
+      <div id="editor"></div>
+
+    <div id="preview" class="content">
+    </div>
+  </div>
+  <script src="index.ts"></script>
+</body>
+
+</html>

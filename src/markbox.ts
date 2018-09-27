@@ -3,13 +3,14 @@ import axios from "axios";
 import transformers from "./transformers";
 
 type Options = {
-  embedOptions?: { [key: string]: any }
+  embedOptions?: { [key: string]: any },
+  markedOptions?: { [key: string]: any },
 }
 
 export async function parse(text, options: Options = {}) {
   const tokens = marked.lexer(text);
 
-  const { embedOptions = {} } = options
+  const { embedOptions = {}, markedOptions = {} } = options
 
   const format = tokens.map(async (item, index) => {
     if (item.type === "code") {
@@ -44,7 +45,7 @@ export async function parse(text, options: Options = {}) {
       return {
         type: "html",
         pre: false,
-        text: `<iframe class="codesandbox" src="https://codesandbox.io/embed/${sandboxId}?${embedOptionsString}"></iframe>`
+        text: `<iframe class="codesandbox" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin" src="https://codesandbox.io/embed/${sandboxId}?${embedOptionsString}"></iframe>`
       };
     } else {
       return item;
@@ -56,7 +57,7 @@ export async function parse(text, options: Options = {}) {
   //@ts-ignore
   formatted.links = tokens.links;
 
-  const html = marked.parser(formatted);
+  const html = marked.parser(formatted, markedOptions);
 
   return html;
 }
