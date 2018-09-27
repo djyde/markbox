@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Markbox parse 1`] = `
+"<p>Code from markdown:</p>
+<iframe class=\\"codesandbox\\" src=\\"https://codesandbox.io/embed/0xzxjpm09v?\\"></iframe>"
+`;

@@ -6,12 +6,14 @@
     "lib"
   ],
   "scripts": {
+    "test": "npm run build && jest",
     "build": "tsc",
     "prepublish": "npm run build",
     "example": "npm run build && parcel example/index.html --no-cache"
   },
   "devDependencies": {
     "babel-polyfill": "^6.26.0",
+    "jest": "^23.6.0",
     "parcel-bundler": "^1.10.0",
     "typescript": "^3.0.3"
   },
