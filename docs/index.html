@@ -73,6 +73,31 @@ class Counter extends React.PureComponent {
 mount(<Counter />)
 ```
 
+#### Vue
+
+`vue`
+
+Your single file Vue component will automatically render to the root element!
+
+```vue
+%3Ctemplate%3E
+  %3Cdiv%3E
+    %3Cp%3E{{ message }}%3C/p%3E
+    %3Cinput v-model="message"%3E
+  %3C/div%3E
+%3C/template%3E
+
+%3Cscript%3E
+export default {
+  data() {
+    return {
+      message: ''
+    }
+  }
+}
+%3C/script%3E
+```
+
 #### ReasonML
 
 `reason`
