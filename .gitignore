@@ -4,3 +4,4 @@ node_modules
 dist
 lib
 package-lock.json
+docs-dist
