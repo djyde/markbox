@@ -5,16 +5,16 @@
   <meta charset="UTF-8" />
 
   <script src="//cdn.bootcss.com/codemirror/5.38.0/codemirror.min.js"></script>
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/languages/javascript.min.js"></script>
   <script src="//cdn.bootcss.com/codemirror/5.38.0/mode/markdown/markdown.min.js"></script>
-
-  <script>hljs.initHighlightingOnLoad();</script>
+  <script src="//cdn.bootcss.com/prism/9000.0.1/prism.min.js"></script>
+  <script src="//cdn.bootcss.com/prism/9000.0.1/components/prism-javascript.min.js"></script>
+  <script src="//cdn.bootcss.com/prism/9000.0.1/components/prism-jsx.js"></script>
+  <script src="//cdn.bootcss.com/prism/1.14.0/components/prism-reason.min.js"></script>
 
   <link href="//cdn.bootcss.com/bulma/0.7.1/css/bulma.min.css" rel="stylesheet">
   <link href="//cdn.bootcss.com/codemirror/5.38.0/codemirror.min.css" rel="stylesheet">
-  <link href="https://cdn.bootcss.com/codemirror/5.38.0/theme/elegant.css" rel="stylesheet">
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/codemirror/5.38.0/theme/elegant.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/prism/9000.0.1/themes/prism.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="index.css" />
 
@@ -39,7 +39,7 @@ Markbox will parse your markdown using [marked](https://github.com/markedjs/mark
 
 <!-- ignore -->
 
-```js
+```javascript
 const markbox = require('markbox')
 
 const markdownContent = `Your markdown content...`
@@ -51,13 +51,21 @@ const html = await markbox.parse(markdownContent)
 
 Depends on your code `languange`, Markbox will transform your codes to different template.
 
-### JavaScript (React)
+#### Plain JavaScript
 
-When the code language is `js` or `jsx`, Markbox will use a React template.
+`js`, `javascript`
+
+```javascript
+document.write('Hello Markbox!')
+```
+
+#### JavaScript (React)
+
+`jsx`
 
 Rather than writing full React render code, you can simply just write your React component and use `mount()` to mount it:
 
-```js
+```jsx
 class Counter extends React.PureComponent {
   render () {
     return (
@@ -69,42 +77,41 @@ class Counter extends React.PureComponent {
 mount(<Counter />)
 ```
 
-#### Vue
+#### ReasonML
 
-When the code language is `vue`, your single file Vue component will automatically render to the container.
+`reason`
 
-```vue
-<template>
-  <div>
-    <p>{{ message }}</p>
-    <input v-model="message">
-  </div>
-</template>
-
-%3Cscript%3E
-export default {
-  data() {
-    return {
-      message: ''
-    }
-  }
-}
-%3C/script%3E
+```reason
+print_endline("Hello Markbox");
 ```
 
 ### others
 
 Other unsupported language code will directly output as a normal code block.
 
+## Advanced Usage
+
 ### ignore
 
-Sometimes you just want to show the code instead of put it into CodeSandbox. You can add a `<!-- ignore -->` above the code:
+You can add a `<!-- ignore -->` above the code to avoid the code being put into CodeSandbox:
 
 <!-- ignore -->
 
-```js
-console.log('hello world')
+```javascript
+console.log('I am not in CodeSandbox Now!')
 ```
+
+## API
+
+#### parse(content: string, options: Options): Promise
+
+Parse markdown to html string with [marked](https://marked.js.org)
+
+`Options`:
+
+- `embedOptions?: object`: [CodeSandbox embed options](https://codesandbox.io/docs/embedding#embed-options) object
+- `fallback?: boolean`: Show code block directly if CodeSandbox generating failed. `false` is by default.
+- `useCache?: boolean`: A in-memory cache that cache the sandbox_id in memory. `true` is by default.
 
 # License
 
@@ -116,12 +123,14 @@ MIT License
     <a class="button" id="run-btn">Run</button>
   </div>
   <div id="app">
-      <div id="editor"></div>
+    <div id="editor"></div>
 
     <div id="preview" class="content">
     </div>
   </div>
+
   <script src="index.ts"></script>
+
 </body>
 
 </html>

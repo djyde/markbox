@@ -1,6 +1,28 @@
 import { getParameters } from "codesandbox/lib/api/define";
 import * as templates from './templates'
 
+const js = (code) => {
+  const parameters = getParameters({
+    files: {
+      "index.js": {
+        content: code,
+        isBinary: false
+      },
+      'index.html': {
+        content: templates.indexHtml,
+        isBinary: false,
+      },
+      "package.json": {
+        isBinary: false,
+        content: JSON.stringify({ dependencies: {
+        }})
+      }
+    }
+  });
+  return {parameters}
+}
+
+
 const react = (code) => {
   const parameters = getParameters({
     files: {
@@ -55,8 +77,33 @@ const vue = (code) => {
   }
 }
 
+const reason = (code) => {
+  const parameters = getParameters({
+    files: {
+      "Index.re": {
+        content: code,
+        isBinary: false
+      },
+      'index.html': {
+        content: templates.indexHtml,
+        isBinary: false,
+      },
+      "package.json": {
+        isBinary: false,
+        content: JSON.stringify({ main: 'Index.re', dependencies: {
+        }})
+      }
+    }
+  });
+  return {parameters, embedOptions: {
+    module: '/Index.re'
+  }}
+}
+
 export default {
-  'jsx': react,
-  'js': react,
-  'vue': vue
+  jsx: react,
+  js,
+  javascript: js,
+  vue,
+  reason,
 }

@@ -4,13 +4,35 @@ import transformers from "./transformers";
 
 type Options = {
   embedOptions?: { [key: string]: any },
-  markedOptions?: { [key: string]: any },
+  fallback?: boolean,
+  useCache?: boolean
 }
+
+// A in memory cache
+class MarkboxCache {
+
+  boxes = [] as { id: string, parameters: string }[]
+
+  get(parameters) {
+    return this.boxes.find(item => item.parameters === parameters)
+  }
+
+  set (parameters, id) {
+    const index = this.boxes.findIndex(item => item.parameters === parameters)
+    if (index !== -1) {
+      this.boxes[index] = { id, parameters }
+    } else {
+      this.boxes.push({ id, parameters })
+    }
+  }
+}
+
+const cache = new MarkboxCache()
 
 export async function parse(text, options: Options = {}) {
   const tokens = marked.lexer(text);
 
-  const { embedOptions = {}, markedOptions = {} } = options
+  const { embedOptions = {}, useCache = true, fallback = false } = options
 
   const format = tokens.map(async (item, index) => {
     if (item.type === "code") {
@@ -28,19 +50,42 @@ export async function parse(text, options: Options = {}) {
 
       const {parameters, embedOptions: customEmbedOptions = {} } = transformer(item.text)
 
-      const res = await axios.post(
-        `https://codesandbox.io/api/v1/sandboxes/define?json=1`,
-        {
-          parameters
-        }
-      );
+      let sandboxId;
 
-      const sandboxId = res.data.sandbox_id;
+      if (useCache && cache.get(parameters)) {
+        sandboxId = cache.get(parameters).id
+      } else {
+        try {
+          const res = await axios.post(
+            `https://codesandbox.io/api/v1/sandboxes/define?json=1`,
+            {
+              parameters
+            }
+          );
+  
+          sandboxId = res.data.sandbox_id;
+
+          cache.set(parameters, sandboxId)
+  
+        } catch (e) {
+          if (!fallback) {
+            throw e
+          }
+        }
+      }
 
       const finalEmbedOptions = Object.assign({}, embedOptions, customEmbedOptions)
       const embedOptionsString = Object.keys(finalEmbedOptions).map(name => {
         return `${name}=${finalEmbedOptions[name]}`
-      }).join('&')
+      }).join('&');
+
+      if (!sandboxId && !fallback) {
+        throw new Error('Network Error')
+      }
+
+      if (!sandboxId && fallback) {
+        return item
+      }
 
       return {
         type: "html",
@@ -57,7 +102,7 @@ export async function parse(text, options: Options = {}) {
   //@ts-ignore
   formatted.links = tokens.links;
 
-  const html = marked.parser(formatted, markedOptions);
+  const html = marked.parser(formatted);
 
   return html;
 }
