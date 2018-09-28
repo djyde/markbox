@@ -21,7 +21,7 @@ const markdownContent = `Your markdown content...`
 const html = await markbox.parse(markdownContent)
 ```
 
-See the full [documentation](https://markbox.netlify.com)
+See the full [documentation](https://markbox.js.org)
 
 # License
 
